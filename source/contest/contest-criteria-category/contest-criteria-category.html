@@ -1,0 +1,44 @@
+<!--
+  Generated template for the ContestCriteriaCategoryPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-content padding>
+  <div small color-red padding-bottom>
+    <p class="font-size-24 bold">Contest Criteria Category</p>
+  </div>
+  <ion-grid>
+  </ion-grid>
+  <ion-row>
+    <ion-col col-6>
+      <button ion-button class="button-ios padding-left-10 padding-right-10 button button-small button-small-ios"
+        (click)="addData()">
+        <ion-icon name="add"></ion-icon>&nbsp; Add
+      </button>
+    </ion-col>
+    <ion-col col-3>
+      <select [(ngModel)]="optFilter" (change)="resetData()" class="margin-top-12" col-12>
+        <option *ngFor="let optSearch of optionSearch" [ngValue]="optSearch.key">{{ optSearch.name }}</option>
+      </select>
+    </ion-col>
+    <ion-col col-2>
+      <ion-item>
+        <ion-input (change)="filterDataTable(this)" [(ngModel)]="inputFilter" type="text" placeholder="   Search">
+        </ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col col-1>
+      <button ion-button
+        class="margin-top-12 button-ios padding-left-10 padding-right-10 button button-small button-small-ios">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col col-12>
+      <mut-datatable (onActionButtonClick)="openEditForm($event)" (onActionDeleteClick)="openDeleteForm($event)"
+        #datatable></mut-datatable>
+    </ion-col>
+  </ion-row>
+</ion-content>

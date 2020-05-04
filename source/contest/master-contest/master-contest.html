@@ -1,0 +1,76 @@
+<!--
+  Generated template for the MasterContestPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-content padding>
+  <div small color-red padding-bottom>
+    <p class="font-size-24 bold">Contest</p>
+  </div>
+  <ion-grid>
+  <ion-row head-dropdown>
+    <ion-col col-2>
+      <label class="padding-top-8" font-size-16>Contest Category</label>
+    </ion-col>
+      <ion-col col-2>
+        <select [(ngModel)]="categoryFilterSearch" class="" col-12>
+        <option value="" selected>All</option>
+        <option *ngFor="let cCategory of contestCategory" [ngValue]="cCategory.id_category">{{ cCategory.name_category }}</option>
+      </select>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col col-2>
+      <label class="padding-top-8" font-size-16>Name Contest</label>
+    </ion-col>
+    <ion-col col-4>
+      <ion-item class="padding-0">
+        <ion-input [(ngModel)]="nameFilterSearch" type="text" max="200" placeholder=" Name Contest"></ion-input>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col col-2>
+      <label class="padding-top-8" font-size-16>Code Contest</label>
+    </ion-col>
+    <ion-col col-4>
+      <ion-item class="padding-0">
+        <ion-input [(ngModel)]="codeFilterSearch" type="text" max="50" placeholder=" Code Contest"></ion-input>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col col-2>
+    </ion-col>
+    <ion-col col-2>
+      <button ion-button class="button-ios padding-left-20 padding-right-20 button button-small button-small-ios" (click)="searchData()">Search</button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col col-11>
+    </ion-col>
+    <ion-col col-1>
+      <button ion-button class="button-ios padding-left-20 padding-right-20 button button-small button-small-ios" (click)="addData()">Add</button>
+    </ion-col>
+    <!-- <ion-col col-2>
+      <select [(ngModel)]="optFilter" class="margin-top-12" col-12>
+        <option value="" selected>Default</option>
+        <option *ngFor="let optSearch of optionSearch" [ngValue]="optSearch.key">{{ optSearch.name }}</option>
+      </select>
+    </ion-col> -->
+    <ion-col col-2>
+      <!-- <ion-item> -->
+        <!-- <ion-input (change)="filterDataTable(this)" [(ngModel)]="inputFilter" type="text" placeholder="   Search"></ion-input> -->
+      <!-- </ion-item> -->
+    </ion-col>
+    <ion-col col-1>
+      <!-- <button ion-button class="margin-top-12 button-ios padding-left-10 padding-right-10 button button-small button-small-ios"><ion-icon name="search"></ion-icon></button> -->
+    </ion-col>
+  </ion-row>
+  </ion-grid>
+  <!-- <ion-row> -->
+    <mut-datatable (onActionButtonClick)="openEditForm($event)" (onActionDeleteClick)="openDeleteForm($event)" #datatable></mut-datatable>
+  <!-- </ion-row> -->
+    
+  </ion-content>

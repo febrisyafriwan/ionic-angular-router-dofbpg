@@ -1,0 +1,108 @@
+mut-datatable{
+
+    .pagecontrol-wrapper{
+        // border: 1px solid #ebebeb;
+        border-radius: 50px;
+        float: right;
+        // width: 100%;
+    }
+    .pagecontrol-wrapper button {
+        margin: 0px;
+        float: left;
+        border-radius: 0px;
+    }
+    .separate-btn, .table-btn{
+        padding: 10px;
+        height: 30px;
+    }
+    .separate-btn{
+        background-color: transparent;
+        border: none;
+        padding: 0px 10px;
+        color: black;
+        cursor: default;
+        font-size: 25px;
+    }
+    .table-btn{
+        background-color: #ebebeb!important;
+        color: #878787;
+    }
+    .table-btn.active{
+        background-color: #ed1b2e!important;
+        color: white;
+    }
+    .table-btn.next-btn{
+        border-radius: 0px 50px 50px 0px;
+    }
+    .table-btn.prev-btn{
+        border-radius: 50px 0px 0px 50px;
+    }
+    .table-responsive{
+        border: none;
+    }
+    .cell-header-cst{
+        background-color: #ed1b2e!important;
+        color: white;
+    }
+    .cell-header-cst{
+        padding: 15px 15px 15px 15px !important;    
+    }
+
+    .cell-text-center{
+        text-align: center;
+    }
+
+    .cell-text-right{
+        text-align: right;
+    }
+
+    .margin-bottom-10{
+        margin-bottom: 10px;
+    }
+
+    .margin-bottom-5{
+        margin-bottom: 5px;
+    }
+
+    .cell-item{
+        padding: 15px 15px 15px 15px !important;
+    }
+    
+    .cell-header-cst:first-child, .cell-item:first-child{
+        padding: 15px 8px 15px 15px !important;;
+    }
+    .cell-header-cst:last-child, .cell-item:last-child{
+        padding: 15px 15px 15px 9px !important;        
+    }
+    .row{
+        background-color: white;
+    }
+    .row.odd{
+        background-color:#ebebeb; 
+    }
+    
+    // sticky table head
+    .sticky-head{
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 20;
+    }
+
+    .lockHeader{
+        margin: -1px 0 10px; 
+        max-height: 500px
+    }
+
+    .button-action-small{
+        height: 2.1em;
+        font-size: 1.3rem;
+        padding: 0 0.9em;
+    }
+
+    .cell-paging-center{
+        display: grid;
+        justify-content: center;
+    }
+    
+}

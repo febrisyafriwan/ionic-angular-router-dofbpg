@@ -1,0 +1,112 @@
+page-contest-report {
+
+    [table-header]{
+        font-weight: 400;
+        font-size: 15px;
+    }
+
+    .searchbar-ios{
+        background: none;
+        border-bottom: 1px solid #ed1b2e;
+    }
+
+    .font-size-28{
+        font-size: 28px;
+    }
+
+    .font-size-26{
+        font-size: 26px;
+    }
+    
+    .font-size-24{
+        font-size: 24px;
+    }
+
+    .font-size-22{
+        font-size: 22px;
+    }
+
+    .font-size-20{
+        font-size: 20px;
+    }
+    
+    .font-size-18{
+        font-size: 18px;
+    }
+
+    .font-size-12{
+        font-size: 12px;
+    }
+
+    .bold{
+        font-weight: bold;
+    }
+
+    .text-center{
+        text-align: center;
+    }
+
+    .text-right{
+        text-align: right;
+    }
+
+    .float-left{
+        float: left;
+    }
+
+    .background-color-white{
+        background-color: white;
+    }
+
+    .padding-0{
+        padding: 0;
+    }
+
+    .margin-top-12{
+        margin-top: 12px;
+    }
+
+    .cell-header-cst{
+        min-width: 150px !important;
+    }
+
+    mut-datatable .cell-header-cst:first-child, mut-datatable .cell-item:first-child {
+        padding: unset;
+        padding: 15px 10px 15px 15px !important;
+    }
+
+    mut-datatable .cell-header-cst:last-child, mut-datatable .cell-item:last-child {
+        padding: 15px 15px 15px 10px !important;
+    }
+
+    .grid[no-padding] > .row > .col{
+        padding: unset;
+        overflow: hidden;
+        padding :10px 15px 0px 15px;
+        // border: 1px solid black;  
+    }
+
+    .data-empty{
+        text-align: left !important;
+    }
+    
+    ion-scroll.listScroll .scroll-content{
+        padding: 0 !important;
+    }
+
+    .absolute{
+        position: absolute;
+        width: 100%;
+    }
+}
+
+
+// ion-backdrop{
+//     opacity: 0.6 !important;
+// }
+
+// @media not all and (min-width: 768px) and (min-height: 600px) {
+//     ion-modal ion-backdrop {
+//       visibility: visible !important;
+//     }
+//   }

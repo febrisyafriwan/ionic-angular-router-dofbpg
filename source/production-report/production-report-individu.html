@@ -1,0 +1,1002 @@
+<!--
+  Generated template for the ProductionReportKpmPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-content padding class="prod">
+  <ion-grid>
+    <ion-row class="margin-left--20 margin-right--20 border-bottom-red">
+      <h4 style="color: #ed1b2e; margin-left: 21px">Fill in search details</h4>
+    </ion-row>
+    <div>
+      <ion-row style="margin-top:10px;">
+        <ion-col col-2>
+          <label class="padding-top-19 font-size-14">Agent Number</label>
+        </ion-col>
+        <ion-col col-4>
+          <ion-item class="padding-0 item-input">
+            <ion-input type="text" class="font-size-14 margin-bottom--10" [(ngModel)]="search.agent_number"
+              placeholder="Input Agent Number"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <!-- Form Period -->
+      <ion-row>
+        <ion-col col-2>
+          <label class="padding-top-8 font-size-14">Period Type<span class="color-red">*</span></label>
+        </ion-col>
+        <ion-col col-4>
+          <select class="" col-12 [(ngModel)]="search.period" (change)="resetDate()">
+            <option class="opt" value="" selected>All</option>
+            <option class="opt" value="MTD">MTD</option>
+            <option class="opt" value="YTD">YTD</option>
+          </select>
+        </ion-col>
+      </ion-row>
+      <!-- Form Date -->
+      <ion-row>
+        <ion-col col-2>
+          <label class="padding-top-15 font-size-14">Period</label>
+        </ion-col>
+        <ion-col class="max-width-15 date" style="margin-left: 5px">
+          <ion-datetime class="font-size-14" [(ngModel)]="search.from"
+            [displayFormat]="search.period == 'MTD' ? 'MMM YYYY' : 'YYYY'" (ionChange)="checkSearchAble(1)"
+            [disabled]="search.period == ''">
+          </ion-datetime>
+        </ion-col>
+        <ion-col class="padding-top-15 max-width-2 text-align-center">
+          <span><label class="font-size-12">-</label></span>
+        </ion-col>
+        <ion-col class="max-width-15 date">
+          <ion-datetime class="font-size-14" [(ngModel)]="search.to" (ionChange)="checkSearchAble()"
+            [displayFormat]="search.period == 'MTD' ? 'MMM YYYY' : 'YYYY'" max="{{maxDate}}"
+            [disabled]="search.period == ''">
+          </ion-datetime>
+        </ion-col>
+      </ion-row>
+    </div>
+    <!-- Button Search -->
+    <ion-row style="margin-bottom: 10px;">
+      <ion-col col-2></ion-col>
+      <ion-col col-2>
+        <button ion-button class="button button-ios button-small button-small-ios padding-left-10 padding-right-10"
+          (click)="onSearch()">Search</button>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+  <!-- Button Download -->
+  <ion-row col-12>
+    <ion-col class="text-align-end">
+      <button [disabled]="dataView?.length < 1 || (search.period == '')" ion-button
+        class="button button-ios button-small button-small-ios padding-left-10 padding-right-10"
+        (click)="requestDownload()">Request Download</button>
+      <button ion-button class="button button-ios button-small button-small-ios padding-left-10 padding-right-10"
+        (click)="openDownloadPage()">Download List</button>
+    </ion-col>
+  </ion-row>
+
+  <!-- Table -->
+  <ng-container *ngIf="isSearched">
+    <div class="table-container">
+      <!-- KPM -->
+      <table class="table table-striped ">
+        <thead class="head">
+          <tr>
+            <th></th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  Snap Date
+                </span>
+              </div>
+              <div>
+                <ion-icon class="cursor-pointer" (click)="openSearch($event)" name="search"></ion-icon>
+                <ion-icon (click)="sort(17, 'snap_date')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[17] ? 'up' : 'down'}}"></ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  Accounting Year
+                </span>
+              </div>
+              <div>
+                <!-- <ion-icon class="icon-search" (click)="openSearch($event)" name="search"></ion-icon> -->
+                <ion-icon (click)="sort(18, 'accounting_year')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[18] ? 'up' : 'down'}}"></ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  Accounting Month
+                </span>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  Agent Number
+                </span>
+              </div>
+              <div>
+                <!-- <ion-icon class="icon-search" (click)="openSearch($event)" name="search"></ion-icon> -->
+                <ion-icon (click)="sort(1, 'agent_number')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[1] ? 'up' : 'down'}}"></ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  Agent Name
+                </span>
+              </div>
+              <div>
+                <ion-icon class="cursor-pointer" (click)="openSearch($event)" name="search"></ion-icon>
+                <ion-icon (click)="sort(2, 'agent_name')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[2] ? 'up' : 'down'}}"></ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  Agent Type
+                </span>
+              </div>
+              <div>
+                <ion-icon class="cursor-pointer" (click)="openSearch($event)" name="search"></ion-icon>
+                <ion-icon (click)="sort(3, 'agent_type')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[3] ? 'up' : 'down'}}"></ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  Leader Number
+                </span>
+              </div>
+              <div>
+                <ion-icon class="cursor-pointer" (click)="openSearch($event)" name="search"></ion-icon>
+                <ion-icon (click)="sort(4, 'leader_number')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[4] ? 'up' : 'down'}}"></ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  Leader Name
+                </span>
+              </div>
+              <div>
+                <ion-icon class="cursor-pointer" (click)="openSearch($event)" name="search"></ion-icon>
+                <ion-icon (click)="sort(5, 'leader_name')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[5] ? 'up' : 'down'}}"></ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  Leader Agent Type
+                </span>
+              </div>
+              <div>
+                <ion-icon class="cursor-pointer" (click)="openSearch($event)" name="search"></ion-icon>
+                <ion-icon (click)="sort(6, 'leader_agent_type')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[6] ? 'up' : 'down'}}"></ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  Unit Number
+                </span>
+              </div>
+              <div>
+                <ion-icon class="cursor-pointer" (click)="openSearch($event)" name="search"></ion-icon>
+                <ion-icon (click)="sort(7, 'unit_number')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[7] ? 'up' : 'down'}}"></ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  Unit Name
+                </span>
+              </div>
+              <div>
+                <ion-icon class="cursor-pointer" (click)="openSearch($event)" name="search"></ion-icon>
+                <ion-icon (click)="sort(8, 'unit_name')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[8] ? 'up' : 'down'}}"></ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  Unit Agent Type
+                </span>
+              </div>
+              <div>
+                <ion-icon class="cursor-pointer" (click)="openSearch($event)" name="search"></ion-icon>
+                <ion-icon (click)="sort(9, 'unit_agent_type')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[9] ? 'up' : 'down'}}"></ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  Group Number
+                </span>
+              </div>
+              <div>
+                <ion-icon class="cursor-pointer" (click)="openSearch($event)" name="search"></ion-icon>
+                <ion-icon (click)="sort(10, 'group_number')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[10] ? 'up' : 'down'}}"></ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  Group Name
+                </span>
+              </div>
+              <div>
+                <ion-icon class="cursor-pointer" (click)="openSearch($event)" name="search"></ion-icon>
+                <ion-icon (click)="sort(11, 'group_name')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[11] ? 'up' : 'down'}}"></ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  Group Agent Type
+                </span>
+              </div>
+              <div>
+                <ion-icon class="cursor-pointer" (click)="openSearch($event)" name="search"></ion-icon>
+                <ion-icon (click)="sort(12, 'group_agent_type')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[12] ? 'up' : 'down'}}"></ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  Office Code
+                </span>
+              </div>
+              <div>
+                <ion-icon class="cursor-pointer" (click)="openSearch($event)" name="search"></ion-icon>
+                <ion-icon (click)="sort(13, 'office_code')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[13] ? 'up' : 'down'}}">
+                </ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  Office Name
+                </span>
+              </div>
+              <div>
+                <ion-icon class="cursor-pointer" (click)="openSearch($event)" name="search"></ion-icon>
+                <ion-icon (click)="sort(14, 'office_name')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[14] ? 'up' : 'down'}}">
+                </ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  ADS Name
+                </span>
+              </div>
+              <div>
+                <ion-icon class="cursor-pointer" (click)="openSearch($event)" name="search"></ion-icon>
+                <ion-icon (click)="sort(15, 'ads_name')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[15] ? 'up' : 'down'}}">
+                </ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <div>
+                <span>
+                  RADD Name
+                </span>
+              </div>
+              <div>
+                <ion-icon class="cursor-pointer" (click)="openSearch($event)" name="search"></ion-icon>
+                <ion-icon (click)="sort(16, 'radd_name')"
+                  class="cursor-pointer icon icon-ios ion-ios-arrow-round-{{isAsc[16] ? 'up' : 'down'}}">
+                </ion-icon>
+              </div>
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total APE
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total API
+              </span>
+
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total API Corporate
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total API Syariah
+              </span>
+
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total API Convent
+              </span>
+
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total Topup
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total Topup Syariah
+              </span>
+
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total Topup Convent
+              </span>
+
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total Saver
+              </span>
+
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total Saver Syariah
+              </span>
+
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total Saver Convent
+              </span>
+
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total SPI
+              </span>
+
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total SPI Syariah
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total SPI Convent
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total Policy
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total Policy Syariah
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total Policy Convent
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <span>
+                Total Policy Corporate
+              </span>
+            </th>
+
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 1-->
+              <span>
+                Total Gross Weighted Case
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 2-->
+              <span>
+                Total CSLR Weighted Case
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 3-->
+              <span>
+                Total CSLR Weighted APE
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 4-->
+              <span>
+                Total Gross Case API Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 5-->
+              <span>
+                Total Gross Case SPI Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 6-->
+              <span>
+                Total Gross API Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 7-->
+              <span>
+                Total Gross Prusaver Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 8-->
+              <span>
+                Total Gross SPI Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 9-->
+              <span>
+                Total Gross Topup Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 10-->
+              <span>
+                Total Gross Weighted APE Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 11-->
+              <span>
+                Total Gross Weighted Case Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 12-->
+              <span>
+                Total CSLR Case API Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 13-->
+              <span>
+                Total CSLR Case SPI Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 14-->
+              <span>
+                Total CSLR API Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 15-->
+              <span>
+                Total CSLR Prusaver Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 16-->
+              <span>
+                Total CSLR SPI Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 17-->
+              <span>
+                Total CSLR Topup Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 18-->
+              <span>
+                Total CSLR Weighted Case Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 19-->
+              <span>
+                Total CSLR Weighted APE Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 20-->
+              <span>
+                Total Net APE Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 21-->
+              <span>
+                Total Gross Case API Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 22-->
+              <span>
+                Total Gross Case SPI Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 23-->
+              <span>
+                Total Gross API Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 24-->
+              <span>
+                Total Gross Prusaver Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 25-->
+              <span>
+                Total Gross SPI Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 26-->
+              <span>
+                Total Gross Topup Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 27-->
+              <span>
+                Total Gross Weighted APE Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 28-->
+              <span>
+                Total Gross Weighted Case Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 29-->
+              <span>
+                Total CSLR Case API Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 30-->
+              <span>
+                Total CSLR Case SPI Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 31-->
+              <span>
+                Total CSLR API Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 32 -->
+              <span>
+                Total CSLR Prusaver Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 33-->
+              <span>
+                Total CSLR SPI Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 34-->
+              <span>
+                Total CSLR Topup Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 35-->
+              <span>
+                Total CSLR Weighted Case Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 36-->
+              <span>
+                Total CSLR Weighted APE Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 37-->
+              <span>
+                Total Net APE Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 38-->
+              <span>
+                Total Net Case Pruworks
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 39-->
+              <span>
+                Total Net APE Pruworks
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 40-->
+              <span>
+                Total Net Case Pruworks
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 41-->
+              <span>
+                Total Net APE Pruworks
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 42-->
+              <span>
+                Total Net Case API Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 43-->
+              <span>
+                Total Net Case SPI Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 44-->
+              <span>
+                Total Net Case API Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 45-->
+              <span>
+                Total Net Case SPI Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 46-->
+              <span>
+                Total API Corporate Syariah
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+            <th class="custom-th min-width-180">
+              <!-- <span (click)="sort(21)"e> 47-->
+              <span>
+                Total API Corporate Convent
+                <!-- <ion-icon class="icon icon-ios ion-ios-arrow-round-{{isAsc[21] ? 'up' : 'down'}}"></ion-icon> -->
+              </span>
+            </th>
+          </tr>
+          <tr class="search-panel-sec filterTable" *ngIf="showSearchPanel" style="background-color: white">
+            <td></td>
+            <td>
+              <ion-select class="select-custom" [(ngModel)]="search.snap_date" (ngModelChange)="onSearch()">
+                <ion-option value="">Select Date</ion-option>
+                <ion-option *ngFor="let item of snapDate" [value]="item.value">{{item}}</ion-option>
+              </ion-select>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!-- <td><input [(ngModel)]="search.agent_number" (keyup.enter)="onSearch()" placeholder="Search here" type="text"></td> -->
+            <td><input [(ngModel)]="search.agent_name" (keyup.enter)="onSearch()" placeholder="Search here" type="text">
+            </td>
+            <td><input [(ngModel)]="search.agent_type" (keyup.enter)="onSearch()" placeholder="Search here" type="text">
+            </td>
+            <td><input [(ngModel)]="search.leader_number" (keyup.enter)="onSearch()" placeholder="Search here"
+                type="text"></td>
+            <td><input [(ngModel)]="search.leader_name" (keyup.enter)="onSearch()" placeholder="Search here"
+                type="text"></td>
+            <td><input [(ngModel)]="search.leader_agent_type" (keyup.enter)="onSearch()" placeholder="Search here"
+                type="text"></td>
+            <td><input [(ngModel)]="search.unit_number" (keyup.enter)="onSearch()" placeholder="Search here"
+                type="text"></td>
+            <td><input [(ngModel)]="search.unit_name" (keyup.enter)="onSearch()" placeholder="Search here" type="text">
+            </td>
+            <td><input [(ngModel)]="search.unit_agent_type" (keyup.enter)="onSearch()" placeholder="Search here"
+                type="text"></td>
+            <td><input [(ngModel)]="search.group_number" (keyup.enter)="onSearch()" placeholder="Search here"
+                type="text"></td>
+            <td><input [(ngModel)]="search.group_name" (keyup.enter)="onSearch()" placeholder="Search here" type="text">
+            </td>
+            <td><input [(ngModel)]="search.group_agent_type" (keyup.enter)="onSearch()" placeholder="Search here"
+                type="text"></td>
+            <td><input [(ngModel)]="search.office_code" (keyup.enter)="onSearch()" placeholder="Search here"
+                type="text"></td>
+            <td><input [(ngModel)]="search.office_name" (keyup.enter)="onSearch()" placeholder="Search here"
+                type="text"></td>
+            <td><input [(ngModel)]="search.ads_name" (keyup.enter)="onSearch()" placeholder="Search here" type="text">
+            </td>
+            <td><input [(ngModel)]="search.radd_name" (keyup.enter)="onSearch()" placeholder="Search here" type="text">
+            </td>
+          </tr>
+        </thead>
+        <tbody class="bodyTable">
+          <tr *ngFor="let item of dataView">
+            <td><button small ion-button (click)="initExcel(item)">
+                <ion-icon name="ios-download-outline"></ion-icon>
+              </button></td>
+            <td>{{item.snap_date}}</td>
+            <td>{{item.accounting_year}}</td>
+            <td>{{item.accounting_month}}</td>
+            <td>{{item.agent_number}}</td>
+            <td>{{item.agent_name}}</td>
+            <td>{{item.agent_type}}</td>
+            <td>{{item.leader_number}}</td>
+            <td>{{item.leader_name}}</td>
+            <td>{{item.leader_agent_type}}</td>
+            <td>{{item.unit_number}}</td>
+            <td>{{item.unit_name}}</td>
+            <td>{{item.unit_agent_type}}</td>
+            <td>{{item.group_number}}</td>
+            <td>{{item.group_name}}</td>
+            <td>{{item.group_agent_type}}</td>
+            <td>{{item.office_code}}</td>
+            <td>{{item.office_name}}</td>
+            <td>{{item.ads_name}}</td>
+            <td>{{item.radd_name}}</td>
+            <td class="text-align-end">{{(item.ape ? item.ape : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">{{(item.api ? item.api : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.api_corporate ? item.api_corporate : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.api_syariah ? item.api_syariah : 0) | number:'0.2-2':'en-IN'}}
+            </td>
+            <td class="text-align-end">
+              {{(item.api_convent ? item.api_convent : 0) | number:'0.2-2':'en-IN'}}
+            </td>
+            <td class="text-align-end">{{(item.topup ? item.topup : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.topup_syariah ? item.topup_syariah : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.topup_convent ? item.topup_convent : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">{{(item.saver ? item.saver : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.saver_syariah ? item.saver_syariah : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.saver_convent ? item.saver_convent : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">{{(item.spi ? item.spi : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.spi_syariah ? item.spi_syariah : 0) | number:'0.2-2':'en-IN'}}
+            </td>
+            <td class="text-align-end">
+              {{(item.spi_convent ? item.spi_convent : 0) | number:'0.2-2':'en-IN'}}
+            </td>
+            <td class="text-align-end">{{(item.polcount ? item.polcount : 0)}}</td>
+            <td class="text-align-end">
+              {{(item.polcount_syariah ? item.polcount_syariah : 0)}}</td>
+            <td class="text-align-end">
+              {{(item.polcount_convent ? item.polcount_convent : 0)}}</td>
+            <td class="text-align-end">
+              {{(item.polcount_corporate ? item.polcount_corporate : 0)}}
+            </td>
+
+            
+            
+            <td class="text-align-end">
+              {{(item.gross_weighted_case ? item.gross_weighted_case : 0) }}</td>
+            <td class="text-align-end">
+              {{(item.cslr_weighted_case ? item.cslr_weighted_case : 0) }}</td>
+            <td class="text-align-end">
+              {{(item.cslr_weighted_ape ? item.cslr_weighted_ape : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.gross_case_api_convent ? item.gross_case_api_convent : 0) }}</td>
+            <td class="text-align-end">
+              {{(item.gross_case_spi_convent ? item.gross_case_spi_convent : 0) }}</td>
+            <td class="text-align-end">
+              {{(item.gross_api_convent ? item.gross_api_convent : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.gross_prusaver_convent ? item.gross_prusaver_convent : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.gross_spi_convent ? item.gross_spi_convent : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.gross_topup_convent ? item.gross_topup_convent : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.gross_weighted_ape_convent ? item.gross_weighted_ape_convent : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.gross_weighted_case_convent ? item.gross_weighted_case_convent : 0)}}</td>
+            <td class="text-align-end">
+              {{(item.cslr_case_api_convent ? item.cslr_case_api_convent : 0) }}</td>
+            <td class="text-align-end">
+              {{(item.cslr_case_spi_convent ? item.cslr_case_spi_convent : 0) }}</td>
+            <td class="text-align-end">
+              {{(item.cslr_api_convent ? item.cslr_api_convent : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.cslr_prusaver_convent ? item.cslr_prusaver_convent : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.cslr_spi_convent ? item.cslr_spi_convent : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.cslr_topup_convent ? item.cslr_topup_convent : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.cslr_weighted_case_convent ? item.cslr_weighted_case_convent : 0)}}</td>
+            <td class="text-align-end">
+              {{(item.cslr_weighted_ape_convent ? item.cslr_weighted_ape_convent : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.net_ape_convent ? item.net_ape_convent : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.gross_case_api_syariah ? item.gross_case_api_syariah : 0) }}</td>
+            <td class="text-align-end">
+              {{(item.gross_case_spi_syariah ? item.gross_case_spi_syariah : 0)}}</td>
+            <td class="text-align-end">
+              {{(item.gross_api_syariah ? item.gross_api_syariah : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.gross_prusaver_syariah ? item.gross_prusaver_syariah : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.gross_spi_syariah ? item.gross_spi_syariah : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.gross_topup_syariah ? item.gross_topup_syariah : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.gross_weighted_ape_syariah ? item.gross_weighted_ape_syariah : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.gross_weighted_case_syariah ? item.gross_weighted_case_syariah : 0)}}</td>
+            <td class="text-align-end">
+              {{(item.cslr_case_api_syariah ? item.cslr_case_api_syariah : 0) }}</td>
+            <td class="text-align-end">
+              {{(item.cslr_case_spi_syariah ? item.cslr_case_spi_syariah : 0) }}</td>
+            <td class="text-align-end">
+              {{(item.cslr_api_syariah ? item.cslr_api_syariah : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.cslr_prusaver_syariah ? item.cslr_prusaver_syariah : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.cslr_spi_syariah ? item.cslr_spi_syariah : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.cslr_topup_syariah ? item.cslr_topup_syariah : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.cslr_weighted_case_syariah ? item.cslr_weighted_case_syariah : 0) }}</td>
+            <td class="text-align-end">
+              {{(item.cslr_weighted_ape_syariah ? item.cslr_weighted_ape_syariah : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.net_ape_syariah ? item.net_ape_syariah : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.net_case_pruworks ? item.net_case_pruworks : 0) }}</td>
+            <td class="text-align-end">
+              {{(item.net_ape_pruworks ? item.net_ape_pruworks : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.net_case_pruworks_total ? item.net_case_pruworks_total : 0) }}</td>
+            <td class="text-align-end">
+              {{(item.net_ape_pruworks_total ? item.net_ape_pruworks_total : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.net_case_api_syariah ? item.net_case_api_syariah : 0) }}</td>
+            <td class="text-align-end">
+              {{(item.net_case_spi_syariah ? item.net_case_spi_syariah : 0) }}</td>
+            <td class="text-align-end">
+              {{(item.net_case_api_convent ? item.net_case_api_convent : 0) }}</td>
+            <td class="text-align-end">
+              {{(item.net_case_spi_convent ? item.net_case_spi_convent : 0) }}</td>
+            <td class="text-align-end">
+              {{(item.api_corporate_syariah ? item.api_corporate_syariah : 0) | number:'0.2-2':'en-IN'}}</td>
+            <td class="text-align-end">
+              {{(item.api_corporate_convent ? item.api_corporate_convent : 0) | number:'0.2-2':'en-IN'}}</td>
+          </tr>
+          <tr *ngIf="dataView?.length < 1">
+            <td colspan="20">Data not found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div [hidden]="dataView?.length < 1" class="pagination padding-top-15" text-center>
+      <ng-container *ngIf="pagingLoaded == false">
+        <ion-infinite-scroll>
+          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading Pagination ...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </ng-container>
+      <ng-container *ngIf="pagingLoaded == true">
+        <div class="relative">
+          <span *ngIf="viewPagination.indexView.length > 1"><button small ion-button class="bg-transparent color-gray"
+              (click)="onClickPage(currentPage-1)">Prev</button></span>
+
+          <ng-container *ngIf="viewPagination.isShowFirstPage">
+            <span><button small ion-button
+                (click)="onClickPage(viewPagination.firstPage)">{{ viewPagination.firstPage }}</button></span>
+            <span><button small ion-button class="bg-transparent color-gray">...</button></span>
+          </ng-container>
+
+          <ng-container *ngFor="let page of viewPagination.indexView">
+            <ng-container *ngIf="currentPage == page">
+              <span><button class="active" small ion-button>{{ page }}</button></span>
+            </ng-container>
+            <ng-container *ngIf="currentPage != page">
+              <span><button class="" small ion-button (click)="onClickPage(page)">{{ page }}</button></span>
+            </ng-container>
+          </ng-container>
+
+          <ng-container *ngIf="viewPagination.isShowLastPage">
+            <span><button small ion-button class="bg-transparent color-gray">...</button></span>
+            <span><button small ion-button
+                (click)="onClickPage(viewPagination.lastPage)">{{ viewPagination.lastPage }}</button></span>
+          </ng-container>
+
+          <span *ngIf="viewPagination.indexView.length > 1"><button small ion-button class="bg-transparent color-gray"
+              (click)="onClickPage(currentPage+1)">Next</button></span>
+
+          <div class="jump-to-page items-center flex" *ngIf="viewPagination.indexView.length > 1">
+            <input class="input-go-to" [(ngModel)]="jumpToPage" (keyup)="onChangeGoto()" placeholder="Go To" type="text"
+              stringToNumber>
+            <button small ion-button (click)="onClickPage(jumpToPage)">Go</button>
+          </div>
+        </div>
+      </ng-container>
+
+    </div>
+  </ng-container>
+</ion-content>

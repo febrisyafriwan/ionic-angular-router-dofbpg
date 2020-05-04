@@ -1,0 +1,151 @@
+<!--
+  Generated template for the ContestReportPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-content padding>
+  <div small color-red padding-bottom>
+    <p class="font-size-24 bold">Contest Report</p>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-2>
+        <label font-size-16>Contest Code</label>
+      </ion-col>
+      <ion-col col-2>
+        <label font-size-16 class="bold">{{ dataParam?.code_contest }}</label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-2>
+        <label class="padding-top-8 margin-top-20" font-size-16>Snap Date</label>
+      </ion-col>
+      <ion-col col-4 class="margin-top-20">
+        <select [(ngModel)]="filterSnapDate" col-12>
+          <option value="" selected>Default</option>
+          <option *ngFor="let lSnapeDate of listSnapDate" [ngValue]="lSnapeDate">
+            {{ lSnapeDate | date:'dd MMMM yyyy' }}</option>
+        </select>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-2>
+        <label class="padding-top-8 margin-top-20" font-size-16>RADD</label>
+      </ion-col>
+      <ion-col col-4>
+          <ion-searchbar class="" [(ngModel)]="filterSearch.radd_name" (ionChange)="onChange($event, 0)"
+            (ionInput)="getItems($event, 0)" (ionClear)="cancelSearch($event, 0)" placeholder="Search RADD Here"
+            (ionFocus)="getItems($event, 0)" (ionBlur)="onBlurSearch($event, 0)" [autocomplete]=true>
+          </ion-searchbar>
+            <div [hidden]="!showList[0]" col>
+            <ion-scroll #scrollElem class="listScroll" scrollY="true" style="height: 150px">
+            
+              <ion-list id="itemAutoComplete">
+                <ion-item *ngFor="let item of dataRadd" cursor-pointer (click)="chooseFilter($event, item, 0)"
+                  font-size-14>
+                  <span>{{ item.radd_name }}</span>
+                </ion-item>
+                <ion-item *ngIf="loadingDataRadd">
+                  <span>
+                    <img class="autoc-loading" src="./assets/icon/loading.gif" alt="">
+                  </span>
+                </ion-item>
+              </ion-list>
+            </ion-scroll>
+          </div>
+      </ion-col>
+    </ion-row>
+    <ion-row [hidden]="!isRadd">
+      <ion-col col-2>
+        <label class="padding-top-8 margin-top-20" font-size-16>ADS</label>
+      </ion-col>
+      <ion-col col-4>
+        <ion-col col-12 class="padding-left-0">
+          <ion-searchbar class="" [(ngModel)]="filterSearch.ads_name" (ionInput)="getItems($event, 1)"
+            (ionChange)="onChange($event, 1)" (ionClear)="cancelSearch($event, 1)" placeholder="Search ADS Here"
+            (ionFocus)="getItems($event, 1)" (ionBlur)="onBlurSearch($event, 1)" [autocomplete]=true>
+          </ion-searchbar>
+          <ion-list *ngIf="showList[1]" class="search-bar-list">
+            <ion-item *ngFor="let item of dataAds" cursor-pointer (click)="chooseFilter($event, item, 1)" font-size-14>
+              <span>{{ item.ads_name }}</span>
+            </ion-item>
+            <ion-item *ngIf="loadingDataAds">
+              <span>
+                <img class="autoc-loading" src="./assets/icon/loading.gif" alt="">
+              </span>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-col>
+    </ion-row>
+    <ion-row [hidden]="!isAds">
+      <ion-col col-2>
+        <label class="padding-top-8 margin-top-20" font-size-16>Office Code</label>
+      </ion-col>
+      <ion-col col-4>
+        <ng-container>
+          <ion-col col-12 class="padding-left-0">
+            <ion-searchbar class="" [(ngModel)]="filterSearch.office_name" (ionChange)="onChange($event, 2)"
+              (ionInput)="getItems($event, 2)" (ionClear)="cancelSearch($event, 2)"
+              placeholder="Search Office Code Here" (ionFocus)="getItems($event, 2)" (ionBlur)="onBlurSearch($event, 2)"
+              [autocomplete]=true>
+            </ion-searchbar>
+            <ion-scroll #scrollElemOffice [hidden]="!showList[2]" class="listScroll" scrollY="true" style="height: 150px">
+              <ion-list>
+                <ion-item *ngFor="let item of dataOffice" cursor-pointer (click)="chooseFilter($event, item, 2)"
+                  font-size-14>
+                  <span>{{ item.office_name }}</span>
+                </ion-item>
+                <ion-item *ngIf="loadingDataOffice">
+                  <span>
+                    <img class="autoc-loading" src="./assets/icon/loading.gif" alt="">
+                  </span>
+                </ion-item>
+              </ion-list>
+            </ion-scroll>
+          </ion-col>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-2>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button
+          class="button-ios padding-left-20 padding-right-20 font-bold button button-small button-small-ios"
+          (click)="searchReport()">Search</button>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button class="button-ios padding-left-10 padding-right-10 button button-small button-small-ios"
+          (click)="downloadExcel()">Request Download</button>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button class="button-ios padding-left-10 padding-right-10 button button-small button-small-ios"
+          (click)="openListDownloadReport()">Download List</button>
+      </ion-col>
+    </ion-row>
+    <ion-row class="margin-top-20">
+      <ion-col col-2>
+        <label class="padding-top-8 margin-top-20" font-size-16>Upload Additional Api</label>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button
+          class="margin-top-20 button-ios padding-left-20 padding-right-20 button button-small button-small-ios"
+          (click)="openAdditionalApiPage()">Additional Api</button>
+      </ion-col>
+    </ion-row>
+    <ion-row class="margin-bottom-30">
+      <ion-col col-2>
+        <label class="padding-top-8" font-size-16>Upload Winner</label>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button class="button-ios padding-left-20 padding-right-20 button button-small button-small-ios"
+          (click)="openWinnerPage()">Upload Winner</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <mut-datatable class="margin-top-20" #datatable></mut-datatable>
+</ion-content>

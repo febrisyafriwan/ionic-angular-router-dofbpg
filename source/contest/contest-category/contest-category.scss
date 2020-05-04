@@ -1,0 +1,77 @@
+page-contest-category {
+    [table-header]{
+        font-weight: 400;
+        font-size: 15px;
+    }
+
+    .cell-header-cst{
+        min-width: 200px !important;
+    }
+
+    mut-datatable .cell-header-cst:first-child, mut-datatable .cell-item:first-child {
+        padding: unset;
+        padding: 15px 1px 15px 15px !important;
+    }
+
+    mut-datatable .cell-header-cst:last-child, mut-datatable .cell-item:last-child {
+        padding: 15px 15px 15px 2px !important;
+    }
+
+    .grid[no-padding] > .row > .col{
+        padding: unset;
+        padding :15px 7px 0px 9px;
+        // border: 1px solid black;  
+    }
+
+    .text-center{
+        text-align: center;
+    }
+
+    .font-size-28{
+        font-size: 28px;
+    }
+
+    .font-size-26{
+        font-size: 26px;
+    }
+    
+    .font-size-24{
+        font-size: 24px;
+    }
+
+    .font-size-22{
+        font-size: 22px;
+    }
+
+    .font-size-20{
+        font-size: 20px;
+    }
+    
+    .font-size-18{
+        font-size: 18px;
+    }
+
+    .font-size-12{
+        font-size: 12px;
+    }
+
+    .text-right{
+        text-align: right;
+    }
+
+    .background-color-white{
+        background-color: white;
+    }
+
+    .padding-0{
+        padding: 0;
+    }
+
+    .float-left{
+        float: left;
+    }
+
+    .margin-top-12{
+        margin-top: 12px;
+    }
+}

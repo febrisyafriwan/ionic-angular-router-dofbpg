@@ -1,0 +1,102 @@
+<ng-container *ngIf="refreshDatatable && !onlyShowAfterReload">
+    
+<!-- Items Per Page -->
+<div class="margin-bottom-5" [ngClass]="{ 'cell-text-right' : isPagingCenter }" style="margin-bottom: 5px;" *ngIf="!isViewItemsPerPage">
+    Show
+    <select [(ngModel)]="viewItemsPerPage" (ngModelChange)="onChangeItemsPerPage($event)">
+        <ng-container *ngFor="let itemsPerPage of itemsPerPageArray">
+            <option  value="{{itemsPerPage}}">{{itemsPerPage}}</option>
+        </ng-container>
+    </select>
+    item(s) per page
+</div>
+<ion-list class="table-responsive" [ngClass]="{ 'lockHeader' : isLockHeader}"> <!-- Set max height for sticky header -->
+    <ion-grid table no-padding>
+        <ion-row nowrap [ngClass]="{'sticky-head' : isLockHeader }">
+            <ng-container *ngFor="let column of columns">
+                <ion-col class="cell-header-cst" [ngClass]="{'cell-text-center' : isTextHeaderCenter}" table-header>{{column.header}}</ion-col>
+            </ng-container>
+        </ion-row>
+        <ion-row *ngFor="let row of viewDatatable; index as i; odd as isOdd" [class.odd]="isOdd"  nowrap>
+            <ng-container *ngFor="let column of columns">
+                <ng-container *ngIf="!column.isClickAble">
+                <ng-container *ngIf="!column.isCheckbox && !column.isAction">
+                    <ion-col class="cell-item cell-text-right" [ngClass]="{ 'cell-text-center' : column.isTextCenter}" *ngIf="column.isMoneyFormat" >{{column.currency ? column.currency.key : ''}} {{row[column.key] | number : '1.2-2': 'en-US'}}</ion-col>
+                    <ion-col class="cell-item" [ngClass]="{ 'cell-text-center' : column.isTextCenter}" *ngIf="!column.isMoneyFormat && !column.isChild && !column.isTrueFalse" >{{row[column.key]}}</ion-col>
+                    <ion-col class="cell-item" [ngClass]="{ 'cell-text-center' : column.isTextCenter}" *ngIf="column.isChild" >{{row[column.key][column.keyChild]}}</ion-col>
+                    <ion-col class="cell-item" [ngClass]="{ 'cell-text-center' : column.isTextCenter}" *ngIf="column.isTrueFalse" >{{row[column.key] == true ? paramTrueFalse[0] : paramTrueFalse[1]}}</ion-col>
+                </ng-container>
+                <ng-container *ngIf="column.isCheckbox">
+                    <ion-col class="padding-left-20 padding-right-0">
+                        <ion-checkbox [checked]="row[column.key]"></ion-checkbox>
+                    </ion-col>
+                </ng-container>
+                </ng-container>
+                
+                <ng-container *ngIf="column.isClickAble">
+                        <ion-col class="cell-item" [ngClass]="{ 'cell-text-center' : column.isTextCenter}"><ion-label class="cursor-pointer" (click)="column.isClickAble.onClickColumn(row)">{{ row[column.key] }}</ion-label></ion-col>
+                </ng-container>
+                
+                <ng-container *ngIf="column.isAction">
+                    <ion-col class="cell-item cell-text-center">
+                        <div *ngIf="column.isActionDynamic">
+                            <ng-container *ngFor="let btn of column.isActionDynamic">
+                                
+                                <button ion-button class="button-action-small" *ngIf="!btn.condition" (click)="btn.onClick(row)"><ion-icon name="{{ btn.icon }}"></ion-icon>&nbsp;{{ btn.label }}</button>
+                                
+                                <ng-container *ngIf="btn.condition">
+                                    <button ion-button class="button-action-small" *ngIf="btn.condition(row)" (click)="btn.onClick(row)"><ion-icon name="{{ btn.icon }}"></ion-icon>&nbsp;{{ btn.label }}</button>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                        <div *ngIf="!column.isOnlyActionDynamic">
+                            <button *ngIf="row[column.key]" ion-button class="button-action-small" (click)="onClickActionButton(row,i)"> {{ row[column.key] }}</button>
+                            <button *ngIf="!row[column.key]" ion-button class="button-action-small" (click)="onClickActionButton(row,i)"> Edit </button>
+                            <button *ngIf="column.isActionDelete" ion-button class="button-action-small" (click)="onClickActionDelete(row,i)"><ion-icon name="trash"></ion-icon></button>
+                        </div>
+                    </ion-col>
+                </ng-container>
+            </ng-container>
+        </ion-row>
+        <ng-container *ngIf="viewDatatable?.length < 1">
+            <ion-row  nowrap>
+                <ion-col class="cell-item data-empty" style="padding-bottom: 50px;" text-center >Data Not Found</ion-col>
+            </ion-row>
+        </ng-container>
+    </ion-grid>
+</ion-list>
+<!-- Detail data on views -->
+
+<div class="margin-bottom-10" [ngClass]="{ 'cell-text-right' : isPagingCenter }">
+    <ng-container *ngIf="!isLazyLoad && dataset.length > 0">
+        Showing {{(1 + itemsPerPage  * (currentPage -1))}} to {{itemsPerPage + itemsPerPage * (currentPage -1)}} of {{dataset.length}} item(s)
+    </ng-container>
+</div>
+    <!-- Paging -->
+    <ng-container *ngIf="isUsingPagination">
+        <div class="cell-paging-center">
+            <div class="pagecontrol-wrapper">
+                <button class="table-btn prev-btn" [disabled]="viewPaginationIndex.disablePrev || viewDatatable?.length < 1" ion-button (click)="onClickPage(currentPage-1)">Prev</button>
+                <ng-container *ngIf="viewPaginationIndex.isShowJumpStringFirstPage">
+                    <button class="table-btn" ion-button (click)="onClickPage(viewPaginationIndex.firstPage)">{{viewPaginationIndex.firstPage}}</button>
+                    <!--<button class="separate-btn" readonly>...</button>-->
+                    <!-- ... -->
+                </ng-container>
+                <ng-container *ngFor="let page of viewPaginationIndex.indexView">
+                    <ng-container *ngIf="currentPage != page">
+                        <button class="table-btn" ion-button (click)="onClickPage(page)">{{page}}</button>
+                    </ng-container>
+                    <ng-container *ngIf="currentPage == page">
+                        <button color="danger" class="table-btn active" ion-button>{{page}}</button>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="viewPaginationIndex.isShowJumpStringLastPage">
+                    <!--<button class="separate-btn" readonly>...</button>-->
+                    <!-- ... -->
+                    <button class="table-btn" ion-button (click)="onClickPage(viewPaginationIndex.lastPage)">{{viewPaginationIndex.lastPage}}</button>
+                </ng-container>
+                <button class="table-btn next-btn" [disabled]="viewPaginationIndex.disableNext || viewDatatable?.length < 1" (click)="onClickPage(currentPage+1)"  ion-button>Next</button> 
+            </div>
+        </div>
+    </ng-container>
+</ng-container>

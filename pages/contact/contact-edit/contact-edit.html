@@ -1,0 +1,63 @@
+<!--
+  Generated template for the FormContestCategoryPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-content padding>
+  <div small color-red class="text-left margin-bottom-25">
+    <button class="button-ios button-small-ios" (click)="back()">Back</button>
+  </div>
+  <div small color-red>
+    <p class="font-size-20 bold">{{ title }} Contest Category</p>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12>
+        <label class="padding-top-20 font-size-18">Category Name *</label>
+      </ion-col>
+      <ion-col col-12>
+        <ion-item class="padding-0">
+          <ion-input class="" type="text" [(ngModel)]="dataTemp.name_category" placeholder="Category Name" required>
+          </ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+     <ion-row>
+      <ion-col col-12>
+        <label class="padding-top-20 font-size-18">Created By *</label>
+      </ion-col>
+      <ion-col col-12>
+        <ion-item class="padding-0">
+          <ion-input class="" type="text" [(ngModel)]="dataTemp.created_by" placeholder="Created By" required>
+          </ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+     <ion-row>
+      <ion-col col-12>
+        <label class="padding-top-20 font-size-18">Created At *</label>
+      </ion-col>
+      <ion-col col-12>
+        <ion-item class="padding-0">
+          <ion-input class="" type="text" [(ngModel)] ="dataTemp.created_at" placeholder="Created At" required>
+          </ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-12 class="text-align-center">
+        <button *ngIf="title == 'Add'" 
+          class="button-ios padding-left-40 padding-right-40 font-bold button button-small button-small-ios"
+          (click)="submitDataAdd()">Save</button>
+        <button *ngIf="title == 'Edit'"
+          class="button-ios padding-left-40 padding-right-40 font-bold button button-small button-small-ios"
+          (click)="submitDataEdit()">Update</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

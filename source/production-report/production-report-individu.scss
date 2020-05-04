@@ -1,0 +1,150 @@
+page-production-report-individu {
+    .min-width-180{
+        min-width: 180px;
+    }
+
+    .font-size-14{
+        font-size: 14px !important;
+    }
+
+    .text-align-center{
+        text-align: center;
+    }
+
+    .text-align-end{
+        text-align: end;
+    }
+
+    .jump-to-page{
+        position: absolute;
+        right: 10%;
+        top: 0;
+    }
+
+    .flex{
+        display: flex;
+    }
+
+    .items-center{
+        align-items: center;
+    }
+    
+    .relative{
+        position: relative;
+    }
+
+    .input-go-to{
+        border: none;
+        border-bottom: 1px solid grey;
+        width: 40px;
+    }
+
+    .border-bottom-red{
+        border-bottom: 1px solid red;
+    }
+
+    .width-350{
+        width: 300px;
+    }
+
+    .width-200{
+        width: 200px
+    }
+
+    .float-left{
+        float: left;
+    }
+
+    .item-cover{
+        width: 350px;
+    }
+
+    .padding-0{
+        padding: 0;
+    }
+
+    .padding-5{
+        padding: 5px;
+    }
+
+    .padding-top-15{
+        padding-top: 15px;
+    }
+
+    .margin-left--20{
+        margin-left: -20px;
+    }
+
+    .margin-right--20{
+        margin-right: -20px;
+    }
+
+    .margin-top--7{
+        margin-top: -7px;
+    }
+
+    .margin-bottom--10{
+        margin-bottom: -10px;
+    }
+
+    .max-width-15{
+        max-width: 15.25%;
+    }
+
+    .max-width-14{
+        max-width: 14%;
+    }
+
+    .max-width-2{
+        max-width: 2%;
+    }
+
+    .bodyTable>tr>td{
+        vertical-align: middle;
+    }
+
+    .filterTable>td{
+        vertical-align: middle !important;
+    }
+
+    .table>thead>tr>th{
+        vertical-align: initial;
+    }
+
+    .date{
+        background: #f5f5f5;
+        padding: 0;
+        font-size: 12px;
+        margin-top: 5px;
+        max-height: 37px;
+    }
+
+    .prod .input{
+        font-family: inherit;
+    }
+
+    .cursor-pointer{
+        cursor: pointer;
+    }
+
+    .select-custom{
+        font-size: 12px;
+        font-family: inherit !important;
+        width: 100% !important;
+        max-width: 100%;
+        padding: 0px 14px 0px 0px;
+    }
+
+    .select-custom > .select-text{
+        width: 0;
+    }
+
+    .select-custom .item-cover{
+        width: 100%
+    }
+
+    .select-custom>.select-icon>.select-icon-inner{
+        border-left: 0px;
+        border-right: 0px;
+    }
+}

@@ -1,0 +1,303 @@
+<!--
+  Generated template for the FormContestPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-content padding>
+  <div small color-red class="text-left margin-bottom-25">
+    <button class="button-ios button-small-ios" (click)="back()">Back</button>
+  </div>
+  <div small color-red>
+    <p class="font-size-20 bold">{{ title }} Contest</p>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <div small color-red padding-top class="bottom-line-red" col-12>
+        <p class="font-size-20 bold">Data Contest</p>
+      </div>
+    </ion-row>
+    <form [formGroup]="myForm">
+      <ion-row>
+        <ion-col col-12>
+          <label class="padding-top-20 font-size-18">Contest Category *</label>
+        </ion-col>
+        <ion-col col-12>
+          <select [(ngModel)]="dataContest.contestCategory.id_category" col-12 formControlName="fCCategory">
+            <option value="" selected>Pilih Contest Category</option>
+            <option *ngFor="let cCategory of contestCategory" [ngValue]="cCategory.id_category">
+              {{ cCategory.name_category }}</option>
+          </select>
+          <h5 *ngIf="!myForm.controls.fCCategory.valid" class="color-red">*Please fill data</h5>
+        </ion-col>
+      </ion-row>
+    </form>
+    <ion-row>
+      <ion-col col-12>
+        <label class="padding-top-20 font-size-18">Contest Level <span class="color-red">*</span></label>
+      </ion-col>
+      <ion-col col-12>
+        <!-- <ion-item> -->
+        <div class="font-bold font-italic margin-left-10" *ngFor="let item of contestLevel">
+          <ion-label>{{ item?.agentType || 'N/A' }}</ion-label>
+          <ion-checkbox color="red" [(ngModel)]="item.checked"></ion-checkbox>
+        </div>
+        <!-- </ion-item> -->
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-12>
+        <ion-checkbox class="margin-top-25 " color="red" [(ngModel)]="dataContest.status_mentoring"></ion-checkbox>
+        <ion-label class="padding-top-20 over font-size-18 float-left">Status Mentoring</ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-12>
+        <ion-checkbox class="margin-top-25 " color="red" [(ngModel)]="dataContest.publish_contest"></ion-checkbox>
+        <ion-label class="padding-top-20 over font-size-18 float-left">Publish Contest</ion-label>
+      </ion-col>
+    </ion-row>
+    <form [formGroup]="myForm">
+      <!-- <ion-row>
+      <ion-col col-12>
+        <ion-checkbox class="margin-top-25" color="red" [(ngModel)]="dataContest.is_bonanza"></ion-checkbox>
+        <ion-label class="padding-top-20 font-size-18 float-left">Event Bonanza?</ion-label>
+      </ion-col>
+    </ion-row> -->
+      <ion-row>
+        <ion-col col-12>
+          <label class="padding-top-20 font-size-18">Contest Name <span class="color-red">*</span></label>
+        </ion-col>
+        <ion-col col-12>
+          <ion-item class="padding-0">
+            <ion-input class="" type="text" [(ngModel)]="dataContest.name_contest" (ionChange)="checkMaxLength()"
+              placeholder="Contest Name" formControlName="fCName"></ion-input>
+          </ion-item>
+          <h5 *ngIf="isMaxLength" class="color-red">*Contest Name should not exceed more than 200 characters</h5>
+          <h5 *ngIf="!myForm.controls.fCName.valid" class="color-red">*Please fill data</h5>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <label class="padding-top-20 font-size-18">Contest Alias <span class="color-red">*</span></label>
+        </ion-col>
+        <ion-col col-12>
+          <ion-item class="padding-0">
+            <ion-input class="" type="text" [(ngModel)]="dataContest.alias" (ionChange)="checkMaxLength()"
+              placeholder="Contest Name" formControlName="fCAlias"></ion-input>
+          </ion-item>
+          <h5 *ngIf="isMaxLengthAlias" class="color-red">*Contest Alias should not exceed more than 50 characters</h5>
+          <h5 *ngIf="!myForm.controls.fCAlias.valid" class="color-red">*Please fill data</h5>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <label class="padding-top-20 font-size-18">Contest Code <span class="color-red">*</span></label>
+        </ion-col>
+        <ion-col col-12>
+          <ion-item class="padding-0">
+            <ion-input class="" type="text" (ionInput)="checkCode()" (ionChange)="checkCode()"
+              [(ngModel)]="dataContest.code_contest" placeholder="Contest Code" formControlName="fCCode"></ion-input>
+          </ion-item>
+          <h5 *ngIf="isContestCode" class="color-red">*Contest Code can't be used</h5>
+          <h5 *ngIf="isMaxLengthCode" class="color-red">*Contest Code should not exceed more than 50 characters</h5>
+          <h5 *ngIf="!myForm.controls.fCCode.valid" class="color-red">*Please fill data</h5>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <label class="padding-top-20 font-size-18">Start Date <span class="color-red">*</span></label>
+        </ion-col>
+        <ion-col col-12>
+          <!-- <input class="margin-top-0" type="date" [(ngModel)]="dataContest.start_date" col-12 /> -->
+          <ion-item class="padding-0">
+            <ion-datetime [(ngModel)]="dataContest.start_date" displayFormat="DD MMM YYYY" max="{{currentDate}}"
+              formControlName="fCStarDate">
+            </ion-datetime>
+          </ion-item>
+          <h5 *ngIf="!myForm.controls.fCStarDate.valid" class="color-red">*Please fill data</h5>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <label class="padding-top-20 font-size-18">End Date <span class="color-red">*</span></label>
+        </ion-col>
+        <ion-col col-12>
+          <!-- <input class="margin-top-0" type="date" [(ngModel)]="dataContest.end_date" col-12 /> -->
+          <ion-item class="padding-0">
+            <ion-datetime [(ngModel)]="dataContest.end_date" displayFormat="DD MMM YYYY" (ionChange)="checkDate()"
+              max="{{currentDate}}" formControlName="fCEndDate"></ion-datetime>
+          </ion-item>
+          <h5 *ngIf="!myForm.controls.fCEndDate.valid" class="color-red">*Please fill data</h5>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <label class="padding-top-20 font-size-18">Start Time <span class="color-red">*</span></label>
+        </ion-col>
+        <ion-col col-12>
+          <!-- <input class="margin-top-0" type="time" [(ngModel)]="dataContest.start_time" col-12 /> -->
+          <ion-item class="padding-0">
+            <ion-datetime [(ngModel)]="dataContest.start_time" displayFormat="HH:mm:ss" formControlName="fCStarTime">
+            </ion-datetime>
+          </ion-item>
+          <h5 *ngIf="!myForm.controls.fCStarTime.valid" class="color-red">*Please fill data</h5>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <label class="padding-top-20 font-size-18">End Time <span class="color-red">*</span></label>
+        </ion-col>
+        <ion-col col-12>
+          <!-- <input class="margin-top-0" type="time" [(ngModel)]="dataContest.end_time" col-12 /> -->
+          <ion-item class="padding-0">
+            <ion-datetime [(ngModel)]="dataContest.end_time" displayFormat="HH:mm:ss" formControlName="fCEndTime">
+            </ion-datetime>
+          </ion-item>
+          <h5 *ngIf="!myForm.controls.fCEndTime.valid" class="color-red">*Please fill data</h5>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <label class="padding-top-20 font-size-18">Contest Description <span class="color-red">*</span></label>
+        </ion-col>
+        <ion-col col-12>
+          <textarea name="description_contest" id="editor" [(ngModel)]="dataContest.description_contest"
+            placeholder="Enter the Contest Description Here" rows="4" formControlName="fCDesc"></textarea>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <label class="padding-top-20 font-size-18">Reward Description <span class="color-red">*</span></label>
+        </ion-col>
+        <ion-col col-12>
+          <textarea name="description_reward" id="editorReward" [(ngModel)]="dataContest.description_reward"
+            placeholder="Enter the Reward Description Here" rows="4" formControlName="fCReward"></textarea>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <label class="padding-top-20 font-size-18">Term and Conditions <span class="color-red">*</span></label>
+        </ion-col>
+        <ion-col col-12>
+          <textarea name="term_and_condition" id="editorTerm" [(ngModel)]="dataContest.term_and_condition"
+            placeholder="Enter the Term and Conditions Description Here" rows="4" formControlName="fCTerm"></textarea>
+        </ion-col>
+      </ion-row>
+    </form>
+
+    <ion-row>
+      <ion-col col-12>
+        <label class="padding-top-20 font-size-18">File Contest <span class="color-red">*</span></label>
+      </ion-col>
+      <ion-col col-12>
+        <input class="float-left" #fileContest name="fileContest" type="file" accept="application/pdf"
+          (change)="fileInputChange($event,2)" />
+        <button *ngIf="isFile" ion-button
+          class="margin-top-min2 button-ios padding-left-10 padding-right-10 font-bold button button-small button-small-ios"
+          (click)="resetFile()">X</button>
+        <button *ngIf="title == 'Edit'" ion-button
+          class="margin-top-min2 button-ios padding-left-20 padding-right-20 font-bold button button-small button-small-ios"
+          (click)="getFile()">Download</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-12>
+        <label class="padding-top-20 font-size-18">Image </label>
+        <span class="margin-top-5 font-italic color-red font-size-12">* Max size: 1MB, Width: 1600px, Height: 800px,
+          File format: jpg png jpeg</span>
+      </ion-col>
+      <ion-col col-12>
+        <input class="float-left" #imageContest name="imageUrl" type="file" accept=".png, .jpg, .jpeg"
+          (change)="fileInputChange($event,1)" />
+        <button *ngIf="title == 'Edit'" ion-button
+          class="margin-top-min2 button-ios padding-left-20 padding-right-20 font-bold button button-small button-small-ios"
+          (click)="getImage()">View</button>
+        <button *ngIf="isImage" ion-button
+          class="margin-top-min2 button-ios padding-left-10 padding-right-10 font-bold button button-small button-small-ios"
+          (click)="resetImage()">X</button>
+      </ion-col>
+      <ion-col col-12>
+        <img src="{{imageSaved}}" class="max-heigh-300" />
+      </ion-col>
+    </ion-row>
+
+    <!-- # Criteria -->
+    <ion-row>
+      <div small color-red padding-top class="bottom-line-red" col-12>
+        <p class="font-size-20 bold">Criteria</p>
+      </div>
+    </ion-row>
+
+    <ion-row>
+      <!-- <button ion-button class="button-ios padding-left-5 padding-right-5 button button-small button-small-ios" (click)="addNewRow()">Add Form Criteria</button> -->
+    </ion-row>
+
+    <div *ngFor="let itemrow of criteria.criteria; let i = index">
+      <ion-row padding-top>
+        <ion-col col-12>
+          <label class="padding-top-20 font-size-18">Category Criteria</label>
+        </ion-col>
+        <ion-col col-12>
+          <div class="form-group">
+            <select [(ngModel)]="itemrow.criteriaCategory.id_criteria_category" col-6>
+              <option value="" selected>Pilih Category Criteria</option>
+              <option *ngFor="let criteriaC of criteriaCategory" [ngValue]="criteriaC.id_criteria_category">
+                {{ criteriaC.name_criteria_category }}</option>
+            </select>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col col-12>
+          <label class="padding-top-20 font-size-18">#{{ i+1 }} Type Criteria </label>
+        </ion-col>
+        <ion-col col-12>
+          <div class="form-group">
+            <select [(ngModel)]="itemrow.criteriaType.id_criteria_type" col-6>
+              <option value="" selected>Pilih Type Criteria</option>
+              <option *ngFor="let criteriaT of criteriaType" [ngValue]="criteriaT.id_criteria_type">
+                {{ criteriaT.name_criteria_type }}</option>
+            </select>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <!-- <ion-row>
+          <ion-col col-12>
+            <label class="padding-top-20 font-size-18">Target</label>
+          </ion-col>
+          <ion-col col-12>
+          <div class="form-group">
+            <ion-item class="padding-0">
+              <ion-input class="margin-top-0" type="number" [(ngModel)]="itemrow.target_criteria"  placeholder="Target Criteria"></ion-input>
+            </ion-item>
+          </div>
+          </ion-col>
+        </ion-row> -->
+      <span float-right ion-button icon-left clear *ngIf="i >= 1" (click)="deleteRow(i)">
+        <ion-icon name="close"></ion-icon>
+        Remove
+      </span>
+    </div>
+    <ion-row>
+      <span ion-button float-left icon-left clear (click)="addNewRow()">
+        <ion-icon name="add"></ion-icon>
+        Add form criteria
+      </span>
+    </ion-row>
+    <ion-row padding-top>
+      <ion-col col-12 class="text-align-center">
+        <button *ngIf="(title == 'Add' || !title) && !isMaxLengthAlias && !isMaxLength && !isMaxLengthCode" ion-button
+          class="button-ios padding-left-40 padding-right-40 font-bold button button-small button-small-ios"
+          (click)="submitDataAdd()">Save</button>
+        <button *ngIf="title == 'Edit' && !isMaxLengthAlias && !isMaxLength && !isMaxLengthCode" ion-button
+          class="button-ios padding-left-40 padding-right-40 font-bold button button-small button-small-ios"
+          (click)="submitDataEdit()">Update</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

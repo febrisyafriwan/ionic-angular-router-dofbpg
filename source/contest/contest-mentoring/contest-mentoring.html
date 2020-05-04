@@ -1,0 +1,92 @@
+<ion-content padding>
+  <div small color-red padding-bottom>
+    <p class="font-size-24 bold">Contest Mentoring</p>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-2>
+        <label font-size-16>Contest Code</label>
+      </ion-col>
+      <ion-col col-2>
+        <label font-size-16 class="bold">{{ dataParam?.code_contest }}</label>
+      </ion-col>
+    </ion-row>
+    <ion-row >
+      <ion-col col-2>
+        <label class="padding-top-8 margin-top-20" font-size-16>Mentor</label>
+      </ion-col>
+      <ion-col col-4>
+          <ion-searchbar class="" [(ngModel)]="filterSearch.mentor" (ionChange)="onChange($event, 0)"
+            (ionInput)="getItems($event, 0)" (ionClear)="cancelSearch($event, 0)" placeholder="Search Mentor Here"
+            (ionFocus)="getItems($event, 0)" (ionBlur)="onBlurSearch($event, 0)" [autocomplete]=true>
+          </ion-searchbar>
+            <div [hidden]="!showList[0]" col>
+            <ion-scroll #scrollElem class="listScroll" scrollY="true" style="height: 150px">
+            
+              <ion-list id="itemAutoComplete">
+                <ion-item *ngFor="let item of dataMentor" cursor-pointer (click)="chooseFilter($event, item, 0)"
+                  font-size-14>
+                  <span>{{ item}}</span>
+                </ion-item>
+                <ion-item *ngIf="loadingDataMentor">
+                  <span>
+                    <img class="autoc-loading" src="./assets/icon/loading.gif" alt="">
+                  </span>
+                </ion-item>
+              </ion-list>
+            </ion-scroll>
+          </div>
+      </ion-col>
+    </ion-row>
+    <ion-row >
+      <ion-col col-2>
+        <label class="padding-top-8 margin-top-20" font-size-16>Mentee</label>
+      </ion-col>
+      <ion-col col-4>
+        <ng-container>
+          <ion-col col-12 class="padding-left-0">
+            <ion-searchbar class=""     [(ngModel)]="filterSearch.mentee" (ionChange)="onChange($event, 2)"
+              (ionInput)="getItems($event, 2)" (ionClear)="cancelSearch($event, 2)"
+              placeholder="Search Mentee Here" (ionFocus)="getItems($event, 2)" (ionBlur)="onBlurSearch($event, 2)"
+              [autocomplete]=true>
+            </ion-searchbar>
+            <ion-scroll #scrollElemOffice [hidden]="!showList[2]" class="listScroll" scrollY="true" style="height: 150px">
+              <ion-list>
+                <ion-item *ngFor="let item of dataMentee" cursor-pointer (click)="chooseFilter($event, item, 2)"
+                  font-size-14>
+                  <span>{{ item }}</span>
+                </ion-item>
+                <ion-item *ngIf="loadingDataMentee">
+                  <span>
+                    <img class="autoc-loading" src="./assets/icon/loading.gif" alt="">
+                  </span>
+                </ion-item>
+              </ion-list>
+            </ion-scroll>
+          </ion-col>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-2>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button
+          class="button-ios padding-left-20 padding-right-20  button button-small button-small-ios"
+          (click)="searchReport()">Search</button>
+      </ion-col>
+    
+    </ion-row>
+    <ion-row class="margin-bottom-30">
+      <ion-col col-2>
+        <label class="padding-top-8" font-size-16>Upload Mentor</label>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button class="button-ios padding-left-20 padding-right-20 button button-small button-small-ios"
+          (click)="openUploadMentoringPage()">Upload Mentor</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <mut-datatable class="margin-top-20" #datatable></mut-datatable>
+</ion-content>

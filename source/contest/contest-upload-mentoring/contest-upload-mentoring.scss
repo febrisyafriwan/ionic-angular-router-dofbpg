@@ -1,0 +1,97 @@
+page-contest-upload-mentoring {
+    .font-size-28{
+        font-size: 28px;
+    }
+
+    .font-size-26{
+        font-size: 26px;
+    }
+    
+    .font-size-24{
+        font-size: 24px;
+    }
+
+    .font-size-22{
+        font-size: 22px;
+    }
+
+    .font-size-20{
+        font-size: 20px;
+    }
+    
+    .font-size-18{
+        font-size: 18px;
+    }
+
+    .font-weight-100{
+        font-weight: 100;
+    }
+
+    .min-width-100{
+        min-width: 100px;
+    }
+
+    .max-width-150{
+        max-width: 150px;
+    }
+
+    .all-border-1px{
+        border: 1px solid rgb(169, 169, 169);
+    }
+
+    .border-top{
+        border-top: 1px solid red;
+    }
+
+    .padding-0{
+        padding: 0;
+    }
+
+    .margin-top-10{
+        margin-top: 10px;
+    }
+
+    .text-align-center{
+        text-align: center;
+    }
+    
+    .text-align-right{
+        text-align: right;
+    }
+
+    .bold{
+        font-weight: bold;
+    }
+
+    .italic{
+        font-style: italic;
+    }
+
+    .item-ios.item-block .item-inner{
+        // border-bottom: unset;
+        padding-right: 0;
+        border-bottom: 0px;
+    }
+
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none; 
+        margin: 0; 
+    }
+
+    ::-webkit-scrollbar { 
+        display: none; 
+    }
+
+    ion-navbar{
+        span.btn-close{
+            float: right;
+            padding-right: 25px;
+            color: #ed1b2e;
+            cursor: pointer;
+        }
+    }
+}
+.alert-align-left{
+    text-align: left !important;
+}

@@ -1,0 +1,76 @@
+<!--
+  Generated template for the FormContestCriteriaCategoryPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-content padding>
+  <div small color-red class="text-left margin-bottom-25">
+    <button class="button-ios button-small-ios" (click)="back()">Back</button>
+  </div>
+  <div small color-red>
+    <p class="font-size-20 bold">{{ title }} Criteria Category</p>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12>
+        <label class="padding-top-20 font-size-18">Name of Criteria Category *</label>
+      </ion-col>
+      <ion-col col-12>
+        <ion-item class="padding-0">
+          <ion-input class="" type="text" [(ngModel)]="dataMaster.name_criteria_category"
+            placeholder="Enter Here Name of Criteria Category" (ionChange)="checkMaxLength()" required></ion-input>
+        </ion-item>
+        <h5 *ngIf="isMaxLength" class="color-red">*Criteria Category Name should not exceed more than 200 characters</h5>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-12>
+        <label class="padding-top-20 font-size-18">Name Column Achievement *</label>
+      </ion-col>
+      <ion-col col-12>
+        <ion-item class="padding-0">
+          <ion-input class="" type="text" [(ngModel)]="dataMaster.name_column_achievement"
+            placeholder="Column Achievement in Green Plum" (ionChange)="checkMaxLength()" required></ion-input>
+        </ion-item>
+        <h5 *ngIf="isMaxLengthAchievement" class="color-red">*Column Achievement Name should not exceed more than 200 characters</h5>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-12>
+        <label class="padding-top-20 font-size-18">Name Column Target *</label>
+      </ion-col>
+      <ion-col col-12>
+        <ion-item class="padding-0">
+          <ion-input class="" type="text" [(ngModel)]="dataMaster.name_column_target"
+            placeholder="Column Target in Green Plum" (ionChange)="checkMaxLength()" required></ion-input>
+        </ion-item>
+        <h5 *ngIf="isMaxLengthTarget" class="color-red">*Column Target Name should not exceed more than 200 characters</h5>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-12>
+        <label class="padding-top-20 font-size-18">Name Column Achievement Percentage *</label>
+      </ion-col>
+      <ion-col col-12>
+        <ion-item class="padding-0">
+          <ion-input class="" type="text" [(ngModel)]="dataMaster.name_column_achievement_percentage"
+            placeholder="Column Achievement Percentage in Green Plum" (ionChange)="checkMaxLength()" required></ion-input>
+        </ion-item>
+        <h5 *ngIf="isMaxLengthPercentage" class="color-red">*Achievement Percentage Name should not exceed more than 200 characters</h5>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-12 class="text-align-center">
+        <button *ngIf="(title == 'Add' || !title) && !isMaxLength && !isMaxLengthAchievement && !isMaxLengthTarget && !isMaxLengthPercentage" ion-button
+          class="button-ios padding-left-40 padding-right-40 font-bold button button-small button-small-ios"
+          (click)="submitDataAdd()">Save</button>
+        <button *ngIf="title == 'Edit' && !isMaxLength && !isMaxLengthAchievement && !isMaxLengthTarget && !isMaxLengthPercentage" ion-button
+          class="button-ios padding-left-40 padding-right-40 font-bold button button-small button-small-ios"
+          (click)="submitDataEdit()">Update</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
